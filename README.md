@@ -28,4 +28,4 @@ Three-tier architecture is mostly used method for deploying your web application
 Each layer has its responsibilities,allowing for scalability,maitainability,modularity.By dividing the architecture into separate layers we can gain security easy updates without impacting others.
 
 ## 🏠 Architecture
-![Untitled Diagram drawio](https://github.com/user-attachments/assets/f85558a3-c5d9-4478-96d9-8b0e9fb28f42)
+![Untitled Diagram drawio](https://github.com/user-attachments/assets/f85558a3-c5d9-4478-96d9-8b0e9fb28f42/image-url=100x200)
