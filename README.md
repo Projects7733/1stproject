@@ -10,13 +10,21 @@ This repository is created to learn and deploy Resilient Three-Tier Architecture
 -🌍 Amazon CloudFront
 
 -🌐 Amazon Route 53
+
 -💻 Amazon EC2
+
 -⚖️ Amazon Autoscaling
+
 -🪪 Amazon Certificate Manager
+
 -🪣 Amazon Backup service
+
 -🗄️ Amazon RDS
+
 -☁️ Amazon VPC
+
 -🔐 Amazon WAF
+
 -👁️ Amazon CloudWatch
 
 ## 🤔 What is Three-tire architecture
