@@ -8,6 +8,7 @@ This repository is created to learn and deploy Resilient Three-Tier Architecture
 ## ⚙️List of AWS services Used
 
 -🌍 Amazon CloudFront
+
 -🌐 Amazon Route 53
 -💻 Amazon EC2
 -⚖️ Amazon Autoscaling
