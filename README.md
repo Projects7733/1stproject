@@ -2,6 +2,7 @@
 This repository is created to learn and deploy Resilient Three-Tier Architecture web app on AWS.
 ### Prerequisites
 📌 AWS account
+
 📌 Basic knowledge of Linux
 
 ## ⚙️List of AWS services Used
