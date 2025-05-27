@@ -64,3 +64,21 @@ The same VPC setup should be done in the Disaster Recovery region(oregon) to iso
 In the oregon region also we need to setup 8 subnets in two availability zones.
 
 ![Screenshot 2025-05-19 015708](https://github.com/user-attachments/assets/20127ff3-9538-44f2-bf22-1c39fd52f9d4)
+
+Attach Internet Gateways and NAT Gateways in the both the VPC's and palce nat gateways in the public subnets.After that click on vpc setttings and enable "DNS hostnames" check box
+
+## 🔹Security Groups(sg)
+
+Security groups are very essential part of the infrastructure. Because it can secure the resources in the cloud. SGs are a kind of firewall that allow or block incoming and outgoing traffic. SGs are applied to the resources like ALB, ec2, rds, etc. One resource can have more than one SG.
+
+![Screenshot 2025-05-19 014151](https://github.com/user-attachments/assets/98a7adf4-9179-43cc-bb8a-34d38977db2a)
+
+Here we created security groups for bastion server ,ALB frontend,ALB backend,frontend-sg,backend-sg,primary db-sg.Allow SSH for bastion server and allow HTTP,Https for forntend ALB and backend ALB.
+
+Our fronend server and Backend server will be in a private subnet so add the HTTP rule and select the source as ALB-frontend-sg. So only ALB-frontend can access the frontend server on port 80. You have to add one more rule SSH allows from bastion-jump-server-sg. So that the bastion host can log in to web servers. similar to backend server also select sources as ALB Backend.
+For primary database allow MySql/Aurora port 3306 from backend-sg so that only backend server can access it.
+
+same setup should be done in recovery region also.
+
+## 🔹 RDS 
+Now we need to create Subnet Group to store our database .create subnet group in your primary region by selecting the vpc that you have created and select availability zones us-east-1a and us-east-1b.same to reccovery region also.
