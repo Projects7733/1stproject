@@ -52,9 +52,6 @@ we are following a warm standby disaster recovery strategy. so we are using two 
 We are going to setup VPC in both regiohns to isolate our resources from the internet.
 for that i create two VPC's in North-virginia and Oregon.For the high availability of our application we launched in two aZ's.
 
-
-![Screenshot 2025-05-19 014915](https://github.com/user-attachments/assets/558a0daf-0c77-48cf-b041-6690ba4b36c6)
-
 Firstly i created a VPC in virginia region with 8 subnets in two availability zones.Among them two are public subnets and six are private subnets.
 
 The same VPC setup should be done in the Disaster Recovery region(oregon) to isolate our resources.
@@ -82,3 +79,19 @@ same setup should be done in recovery region also.
 
 ## 🔹 RDS 
 Now we need to create Subnet Group to store our database .create subnet group in your primary region by selecting the vpc that you have created and select availability zones us-east-1a and us-east-1b.same to reccovery region also.
+I created a database with "book-rds.rd" and place that database in the subnet group that you have created earlier.
+
+![Screenshot 2025-05-19 014659](https://github.com/user-attachments/assets/02d13e58-5bc4-4002-b946-2d46f0ce0ef5)
+
+once the database is created we need to create a read replica for the database that is used in the recovery region. It is similar to the creating the database in the primary region.
+
+## 🔹 Route53
+
+Route 53 is used to provide DNS service that we can access our web app through the domain name. Firstly I registred my domain as "asapclub.click" which costs me around 5 dollars.
+
+![Screenshot 2025-05-19 015230](https://github.com/user-attachments/assets/85fd17bd-7d42-4f45-9428-e6d0ce92bab2)
+
+Now im going to create two hosted zones for my domain to route traffic and failover strategy
+Head over to route53 and create hosted zones in the host zone section.select the vpc that you have created. Give domain name and create host zone as private one.After that create a create record that points to our Rds instance.select sample routing and paste the endpoint of your rds server in the CNAME field and create. The same setup should be done in the recovery region also.
+
+![Screenshot 2025-05-21 104907](https://github.com/user-attachments/assets/67fb6525-a49a-4b5e-a3f8-bb650b6461a0)
