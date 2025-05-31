@@ -95,3 +95,16 @@ Now im going to create two hosted zones for my domain to route traffic and failo
 Head over to route53 and create hosted zones in the host zone section.select the vpc that you have created. Give domain name and create host zone as private one.After that create a create record that points to our Rds instance.select sample routing and paste the endpoint of your rds server in the CNAME field and create. The same setup should be done in the recovery region also.
 
 ![Screenshot 2025-05-21 104907](https://github.com/user-attachments/assets/67fb6525-a49a-4b5e-a3f8-bb650b6461a0)
+
+We need to setup a health check for our regions through route53 in order if one endpoint fails route53 detects and route traffic to another region. In route53 go to health check section and crete a health check and select an endpoint to monitor.Give the DNS of ALB-backend in domain name and then create.
+![Screenshot 2025-05-19 015321](https://github.com/user-attachments/assets/a8557c71-be48-472c-b974-d43f8686f822)
+After that we need to create failover record for our ALB-backend and give DNS of ALB-backend in our primary region and in health check seection select the helath id that we have created just above.
+The same faiover record should be setup in the secon region.
+
+## 🔹 Certificate Manager
+AWs certificate manager is used to requst SSl/TLs certificate for securing our websites.
+Head over to the ACM and requst certificate manager and enter domain name and request and status is pending.After that you need to add CNAME record then click on create record in route53 and click on create button.
+
+
+we need set ACM in both regions.
+![Screenshot 2025-05-19 015051](https://github.com/user-attachments/assets/ddcf5c25-324c-417e-882d-1ffa2f2d26bc)
