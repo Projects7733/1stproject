@@ -108,3 +108,47 @@ Head over to the ACM and requst certificate manager and enter domain name and re
 
 we need set ACM in both regions.
 ![Screenshot 2025-05-19 015051](https://github.com/user-attachments/assets/ddcf5c25-324c-417e-882d-1ffa2f2d26bc)
+
+## 🔹 Application Load balancer(ALB) 
+
+Load balancers are used to route tarffic between the servers when requests are huge sometimes.we need to setup two load balancers for our architecture one for frontend and another one for backend.First we have to create target groups for instances.so create target groups in the ec2 dashboard select the vpc that you have created and protocol aims to http 80. 
+
+![Screenshot 2025-05-19 014033](https://github.com/user-attachments/assets/2f4665cb-a7dc-4f36-9fcb-5db33d244c26)
+
+we have to setup in the recovery region also.
+
+Now let's associate these TG with the load balancer.so go to load balancer section create load balancer with vpc of our and select the availability zones that we have to setup instances select internet-facing.In the security group section select the sg(ALB-frontend-sg) that we have created in the earlier and in listeners part select the target group we created(ALB-frontend-TG) and create.
+
+![Screenshot 2025-05-19 013918](https://github.com/user-attachments/assets/4ae2a6fe-9524-4520-a265-b8b01bdabd5f)
+
+In the backend load balancer add another listener part by default it is http we need to select https in listeners section and select target group we created for backend ALB and in the secure listeners settings add our certificate for security of our backend.
+we have to setup in the recovery region also.
+
+## 🔹 EC2
+
+we are going to create a temporary frontend and backend server to do all the required setup, take snapshots and create Machine images from it. So that we can utilize it in the launch template.
+we are going to set up in one region only. By using the backup service and copying it in the recovery region.
+Now go to ec2 service and  create an instance in the for frontend server and create a new keypair for our servers .In the firewalls settings allow all the security groups and in the advanced details section paste the script for launching instance.
+
+![Screenshot 2025-05-19 014225](https://github.com/user-attachments/assets/9fdddb1c-fbf4-451b-9822-e2d579378997)
+
+Now open git bash and login into our frontend server using the .pem file we hae created in earlier and clone the repo for our application files.In your case your application repository. You to configure api file by replacing with our domain name.In my case "https://api.asapclub.click".so that our api  calls on the domain name that will point to our backend server.
+After that type npm install to install required packages.
+
+![Screenshot 2025-05-18 222151](https://github.com/user-attachments/assets/84ea15ab-aaec-495e-b828-a3095b434376)
+
+Now login in to the backend server with same pem file create one file. in that file
+we have to add DB_HOST="your db name" DB_USEERNAME="username" DB-PASSWORD="password" PORT=3306.close the file and save it
+now type npm install
+and start backend server with command "sudo pm2 start index.js --name "backendApi".
+
+🔹AMI
+we need to create AmI's to create launch templates.so select the frontend server actions select images and template option and then click on create.
+
+![Screenshot 2025-05-19 014326](https://github.com/user-attachments/assets/7b9ba78d-8899-4315-bffb-c4f1a6d2c65b)
+
+## 🔹 Launch Template
+Now we have to create launch template for our regions .In the ec2 section select launch template section and select ami that you have created above and select security groups we created for frontend server" primary frontend sg" and  we have to add user-data in advanced details andclick on create.
+we need to setup for backened server and another region also.
+
+![Screenshot 2025-05-19 014404](https://github.com/user-attachments/assets/06c8ebf0-1c7b-4b7a-92b3-ce53fec57b47)
