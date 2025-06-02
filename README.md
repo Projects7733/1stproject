@@ -162,8 +162,7 @@ Its time to assign resources to our backup so go to assign resources give it nam
 After sometime you will see the instance AMI in the recovery region under the ec2 dashboard in both regions.
 ## 🔹 Target groups
 In the ec2 dashboard configure TG.Give it name for target group select instances as target type and vpc of our and create it.
-
-![Screenshot 2025-05-19 020307](https://github.com/user-attachments/assets/11dcfc69-3285-46b3-a92c-9d8cb7499412)
+![Screenshot 2025-05-19 014033](https://github.com/user-attachments/assets/e5af79a4-5386-4f90-9aec-df8eb3b1900a)
 
 ## 🔹 Auto scaling group (ASG)
 Auto scaling groups enables our instances network traffic ,cpu utilization and automatic scaling up and down.It launches instances from the launch template.Go to Auto scaling Groups create ASG's for frontend and backend servers.Give name to your ASG and select template for frontend server and in vpc select private subnets we have created fpr frontend server. In Next section load balancing attach to a load balancer we have created for frontend servers and select Target group for frontend ALB and next set the group size based on traffic and then create.The same process should be for backend server.
@@ -171,5 +170,19 @@ Auto scaling groups enables our instances network traffic ,cpu utilization and a
 ![Screenshot 2025-05-19 014014](https://github.com/user-attachments/assets/2d3cebdd-7d61-4e7c-abae-ff00701cc335)
 I have created the same process for the recovery region.
 
-We need to initialize our database and need to create some tables. But we can’t access the RDS instance or backend server directly coz they are in a private subnet and the security group won’t let us login into it. So we need to launch an instance in the same VPC but in the public subnet that instance is called b![Screenshot 2025-05-19 014033](https://github.com/user-attachments/assets/e5af79a4-5386-4f90-9aec-df8eb3b1900a)
-astion host(jump-server). And through that instance, we will log in to the backend server, and from the backend server we will initialize our database.
+We need to initialize our database and need to create some tables. But we can’t access the RDS instance or backend server directly coz they are in a private subnet and the security group won’t let us login into it. So we need to launch an instance in the same VPC but in the public subnet that instance is called bastion host(jump-server). And through that instance, we will log in to the backend server, and from the backend server we will initialize our database.
+
+![Screenshot 2025-05-19 020307](https://github.com/user-attachments/assets/11dcfc69-3285-46b3-a92c-9d8cb7499412)
+ login into the jump server with 3-tier.pem file .from there we can login into backend server to initialize the database.for this we have to install mysql **sudo apt install mysql-server -y**.After that initialize the database with command **mysql -h book.rds.com -u <admin> -p<Yuvaraj123> test < test.db**
+![Screenshot 2025-05-18 222151](https://github.com/user-attachments/assets/c132d3a4-c910-4261-b628-5103c8f4d913)
+our website can be accessed through the ALB-frontend but it can't be in total functional mode because of ApI's try to call from our browser on the domain name "https://api.asapclub.click" this record didn't add in our domain.so create that record for accessing our website in functional mode.
+
+ In the route53 choose the public hosted zone and create record with failover routing policy and in record name type **api.domain name**click on define failover record.In that select route traffic to **ALB-backend** and in the primary region failover type(primary) and health check Id we created for primary region and create it.
+ The same failover record should be setup for recovery region also but without a health check.
+ Now we can access the website using our ALB-forntend  DNS.
+ ![book](https://github.com/user-attachments/assets/af8d085a-f069-4f49-aa947ccfdaec9eef)
+
+## 🔹 CloudFront
+Cloud front is a content delivery network used for caching of every edge location.due to this users face less latency and high performance.For this create distribution in the origin domain select ALB-forntend allow http,https methods and add item with alternative domain name(ou domain name) and select certificate and create distribution.
+After it is created i have selected create origin and select second region ALb-frontend.
+Again we need to create origin groups in that we select primary region and select all failover criteria options and then create origin group. In the behavior tab select failover group we created above and save it.
