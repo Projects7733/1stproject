@@ -152,3 +152,9 @@ Now we have to create launch template for our regions .In the ec2 section select
 we need to setup for backened server and another region also.
 
 ![Screenshot 2025-05-19 014404](https://github.com/user-attachments/assets/06c8ebf0-1c7b-4b7a-92b3-ce53fec57b47)
+
+## 🔹 Backup service
+
+Backup service is used to copy the images we have created in the primary region into recovery region.so first create backup vault.Go to backup service and create vault with name of our wish and click on create.After that create backup plan with name ,backup time and select 2nd region that you want to copy and create.
+Its time to assign resources to our backup so go to assign resources give it name and select
+
