@@ -156,5 +156,20 @@ we need to setup for backened server and another region also.
 ## 🔹 Backup service
 
 Backup service is used to copy the images we have created in the primary region into recovery region.so first create backup vault.Go to backup service and create vault with name of our wish and click on create.After that create backup plan with name ,backup time and select 2nd region that you want to copy and create.
-Its time to assign resources to our backup so go to assign resources give it name and select
+Its time to assign resources to our backup so go to assign resources give it name and select specific resource type and select the instance types that we created in ec2 and click on assign resources.
 
+![Screenshot 2025-05-19 020307](https://github.com/user-attachments/assets/ae56a0fc-c2ec-4530-a73c-d3c885efe3d3)
+After sometime you will see the instance AMI in the recovery region under the ec2 dashboard in both regions.
+## 🔹 Target groups
+In the ec2 dashboard configure TG.Give it name for target group select instances as target type and vpc of our and create it.
+
+![Screenshot 2025-05-19 020307](https://github.com/user-attachments/assets/11dcfc69-3285-46b3-a92c-9d8cb7499412)
+
+## 🔹 Auto scaling group (ASG)
+Auto scaling groups enables our instances network traffic ,cpu utilization and automatic scaling up and down.It launches instances from the launch template.Go to Auto scaling Groups create ASG's for frontend and backend servers.Give name to your ASG and select template for frontend server and in vpc select private subnets we have created fpr frontend server. In Next section load balancing attach to a load balancer we have created for frontend servers and select Target group for frontend ALB and next set the group size based on traffic and then create.The same process should be for backend server.
+
+![Screenshot 2025-05-19 014014](https://github.com/user-attachments/assets/2d3cebdd-7d61-4e7c-abae-ff00701cc335)
+I have created the same process for the recovery region.
+
+We need to initialize our database and need to create some tables. But we can’t access the RDS instance or backend server directly coz they are in a private subnet and the security group won’t let us login into it. So we need to launch an instance in the same VPC but in the public subnet that instance is called b![Screenshot 2025-05-19 014033](https://github.com/user-attachments/assets/e5af79a4-5386-4f90-9aec-df8eb3b1900a)
+astion host(jump-server). And through that instance, we will log in to the backend server, and from the backend server we will initialize our database.
