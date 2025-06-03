@@ -180,7 +180,8 @@ our website can be accessed through the ALB-frontend but it can't be in total fu
  In the route53 choose the public hosted zone and create record with failover routing policy and in record name type **api.domain name**click on define failover record.In that select route traffic to **ALB-backend** and in the primary region failover type(primary) and health check Id we created for primary region and create it.
  The same failover record should be setup for recovery region also but without a health check.
  Now we can access the website using our ALB-forntend  DNS.
- ![book](https://github.com/user-attachments/assets/af8d085a-f069-4f49-aa947ccfdaec9eef)
+
+![book](https://github.com/user-attachments/assets/92683815-5edf-406c-948e-4ff4878bd2d1)
 
 ## 🔹 CloudFront
 Cloud front is a content delivery network used for caching of every edge location.due to this users face less latency and high performance.For this create distribution in the origin domain select ALB-forntend allow http,https methods and add item with alternative domain name(ou domain name) and select certificate and create distribution.
@@ -189,3 +190,8 @@ Again we need to create origin groups in that we select primary region and selec
 Again i have created another record for **3-tier** so our website looks like **3-tier.asapclub.click**.For this i select route traffic to cloudfront distribution and defined the simple record. After sometime our website will look like **https://3-tier.asapclub.click**.
 
 ## 🔹 AWS WAF (Web application firewall)
+AWS WAF is a firewall that helps to protect apps and api against bots and attackers.Go to WAF service create web ACL's with name and select resources type with cloudfront distribution and hit rule select managed rule there we can select some rules related to security and save it.
+Its time for testing our application. In the primary region select the ALB-frontend-sg and ALB-backend-sg and remove the inbound rule like http,https then we created some situation like a disaster.
+
+After sometime route53 will monitor the healthcheck of primary region and find it unhealthy and route traffic to recovery region.we cant add books in secondary region because in the recovery region DB is in read replica only weh have to edit db in secondary region and change to "promote" in Actions to se in functional mode.
+
