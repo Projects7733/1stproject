@@ -186,3 +186,6 @@ our website can be accessed through the ALB-frontend but it can't be in total fu
 Cloud front is a content delivery network used for caching of every edge location.due to this users face less latency and high performance.For this create distribution in the origin domain select ALB-forntend allow http,https methods and add item with alternative domain name(ou domain name) and select certificate and create distribution.
 After it is created i have selected create origin and select second region ALb-frontend.
 Again we need to create origin groups in that we select primary region and select all failover criteria options and then create origin group. In the behavior tab select failover group we created above and save it.
+Again i have created another record for **3-tier** so our website looks like **3-tier.asapclub.click**.For this i select route traffic to cloudfront distribution and defined the simple record. After sometime our website will look like **https://3-tier.asapclub.click**.
+
+## 🔹 AWS WAF (Web application firewall)
