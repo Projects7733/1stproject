@@ -40,8 +40,8 @@ Three-tier architecture is mostly used method for deploying your web application
 Each layer has its responsibilities,allowing for scalability,maitainability,modularity.By dividing the architecture into separate layers we can gain security easy updates without impacting others.
 
 ## 🏠 Architecture
-![Untitled Diagram drawio](https://github.com/user-attachments/assets/f85558a3-c5d9-4478-96d9-8b0e9fb28f42)
 
+![3-tier drawio (1)](https://github.com/user-attachments/assets/b3abf0b6-d3bd-4217-9656-3fc2233980a8)
 
 ## Steps
 
@@ -181,7 +181,7 @@ our website can be accessed through the ALB-frontend but it can't be in total fu
  The same failover record should be setup for recovery region also but without a health check.
  Now we can access the website using our ALB-forntend  DNS.
 
-![book](https://github.com/user-attachments/assets/92683815-5edf-406c-948e-4ff4878bd2d1)
+![cloudfront](https://github.com/user-attachments/assets/b5b6d4e6-6a75-4761-aecc-0a3e8eb371f8)
 
 ## 🔹 CloudFront
 Cloud front is a content delivery network used for caching of every edge location.due to this users face less latency and high performance.For this create distribution in the origin domain select ALB-forntend allow http,https methods and add item with alternative domain name(ou domain name) and select certificate and create distribution.
