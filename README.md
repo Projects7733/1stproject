@@ -180,8 +180,9 @@ our website can be accessed through the ALB-frontend but it can't be in total fu
  In the route53 choose the public hosted zone and create record with failover routing policy and in record name type **api.domain name**click on define failover record.In that select route traffic to **ALB-backend** and in the primary region failover type(primary) and health check Id we created for primary region and create it.
  The same failover record should be setup for recovery region also but without a health check.
  Now we can access the website using our ALB-forntend  DNS.
+ 
+![cloudfront](https://github.com/user-attachments/assets/a5666a53-a4de-41be-bdb0-0067a077a043)
 
-![cloudfront](https://github.com/user-attachments/assets/b5b6d4e6-6a75-4761-aecc-0a3e8eb371f8)
 
 ## 🔹 CloudFront
 Cloud front is a content delivery network used for caching of every edge location.due to this users face less latency and high performance.For this create distribution in the origin domain select ALB-forntend allow http,https methods and add item with alternative domain name(ou domain name) and select certificate and create distribution.
